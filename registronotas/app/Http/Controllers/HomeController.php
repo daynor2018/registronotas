@@ -24,14 +24,18 @@ class HomeController extends Controller
 
     public function index(Request $request)
     {
-        if ($request->user()->authorizeRoles('administrador')) {
-            return view('home');
-        }else{
-            if ($request->user()->authorizeRoles('docente')) {
-                return view('homedoc');
+        if ($request->user()->authorizeRoles('administrador','docente','estudiante')) {
+            if ($request->user()->hasRole('administrador')) {
+                return view('homeadmin');    
             }else{
-                if ($request->user()->authorizeRoles('estudiante')) {
-                    return view('homeest');
+                if ($request->user()->hasRole('docente')) {
+                    return view('homedoc');
+                }else{
+                    if ($request->user()->hasRole('estudiante')) {
+                        return view('homeest');
+                    }else{
+                        return view('error');
+                    }
                 }
             }
         }

@@ -1,0 +1,29 @@
+.fondocontenido{
+	background-image: url('../images/docente/fondo.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-attachment: fixed;
+	background-color: gray;
+}
+
+.fondojumbo{
+	background-image: url('../images/docente/jumbo2.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: blue;	
+}
+
+.fondoformulario{
+	background-image: url('../images/docente/fondo2.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: blue;		
+}
+
+.footer{
+	background-image: url('../images/docente/footer.jpg');
+	background-repeat: no-repeat;
+	background-size: cover;
+	background-color: blue;			
+}
+

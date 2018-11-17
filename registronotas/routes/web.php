@@ -11,14 +11,31 @@
 |
 */
 
-Route::get('/', function () {
-    return view('welcome');
+Route::get('/inicio', function () {
+    return view('welcomeplataform');
 });
 
 Auth::routes();
 
-Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
 
-Route::put('post/{id}', function ($id) {
-    //
-})->middleware('auth', 'role:admin');
+Route::get('/lista/docente','UserController@listadocente')->name('listadocentes')->middleware('auth', 'role:administrador');
+Route::get('/registrar/docente','UserController@registrardocente')->name('registrardocente')->middleware('auth', 'role:administrador');
+Route::post('/docente/registrado','UserController@guardardocente')->name('guardardocente')->middleware('auth', 'role:administrador');
+Route::post('/actualizar/docente/{id}','UserController@editardocente')->name('actualizardocente')->middleware('auth', 'role:administrador');
+Route::get('/eliminar/docente/{id}','UserController@bajadocente')->name('eliminardocente')->middleware('auth', 'role:administrador');
+
+Route::get('/lista/estudiante','UserController@listaestudiante')->name('listaestudiantes')->middleware('auth', 'role:administrador');
+Route::get('/registrar/estudiante','UserController@registrarestudiante')->name('registrarestudiante')->middleware('auth', 'role:administrador');
+Route::post('/estudiante/registrado','UserController@guardarestudiante')->name('guardarestudiante')->middleware('auth', 'role:administrador');
+Route::post('/actualizar/estudiante/{id}','UserController@editarestudiante')->name('actualizarestudiante')->middleware('auth', 'role:administrador');
+Route::get('/eliminar/estudiante/{id}','UserController@bajaestudiante')->name('eliminarestudiante')->middleware('auth', 'role:administrador');
+
+Route::get('/lista/clase','ClaseController@listaclase')->name('listaclases')->middleware('auth', 'role:administrador');
+Route::post('/clase/registrada','ClaseController@guardarclase')->name('registrarclase')->middleware('auth', 'role:administrador');
+Route::post('/actualizar/clase/{id}','ClaseController@editarclase')->name('actualizarclase')->middleware('auth', 'role:administrador');
+Route::get('/eliminar/clase/{id}','ClaseController@bajaclase')->name('eliminarclase')->middleware('auth', 'role:administrador');
+
+Route::get('/registrar/horario/{id}','HorarioController@registrarhorario')->name('registrarhorario')->middleware('auth', 'role:administrador');
+Route::post('/horario/registrado','HorarioController@guardarhorario')->name('guardarhorarios')->middleware('auth', 'role:administrador');
+Route::get('/registrar/aula/{id}','HorarioController@registraraula')->name('registraraula')->middleware('auth', 'role:administrador');

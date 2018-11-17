@@ -4,6 +4,7 @@ namespace App;
 
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Support\Facades\DB;
 
 class User extends Authenticatable
 {
@@ -29,9 +30,7 @@ class User extends Authenticatable
 
     public function roles()
     {
-        return $this
-            ->belongsToMany('App\Role')
-            ->withTimestamps();
+        return $this->belongsToMany('App\Role')->withTimestamps();
     }
 
     public function authorizeRoles($roles)
@@ -39,7 +38,7 @@ class User extends Authenticatable
         if ($this->hasAnyRole($roles)) {
             return true;
         }
-        abort(401, 'Esta acción no está autorizada.');
+        return view('error');
     }
 
     public function hasAnyRole($roles)
@@ -65,4 +64,26 @@ class User extends Authenticatable
         }
         return false;
     }
+
+    public static function listadocente(){
+        $docentes = DB::table('users')
+            ->join('role_user', 'users.id', '=', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->select('users.*', 'roles.name')
+            ->where('roles.name', '=', 'docente')
+            ->where('users.state', '!=', '0')->get();
+        return $docentes;
+    }
+
+    public static function listaestudiante(){
+        $docentes = DB::table('users')
+            ->join('role_user', 'users.id', '=', 'role_user.user_id')
+            ->join('roles', 'role_user.role_id', '=', 'roles.id')
+            ->join('estudiantes', 'users.id', '=', 'estudiantes.user_id')
+            ->select('users.*', 'roles.name', 'estudiantes.*')
+            ->where('roles.name', '=', 'estudiante')
+            ->where('users.state', '!=', '0')->get();
+        return $docentes;
+    }
 }
+
