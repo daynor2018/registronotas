@@ -11,19 +11,39 @@
 |
 */
 
-Route::get('/inicio', function () {
-    return view('welcomeplataform');
+Route::get('/', function () {
+	if (!empty(auth()->user())) {
+		if (auth()->user()->authorizeRoles('administrador','docente','estudiante')) {
+            if (auth()->user()->hasRole('administrador')) {
+                return view('homeadmin');    
+            }else{
+                if (auth()->user()->hasRole('docente')) {
+                    return view('homedoc');
+                }else{
+                    if (auth()->user()->hasRole('estudiante')) {
+                        return view('homeest');
+                    }else{
+                        return view('error');
+                    }
+                }
+            }
+        }
+	}else{
+    	return view('welcomeplataform');
+    }
 });
 
 Auth::routes();
 
-Route::get('/', 'HomeController@index')->name('home')->middleware('auth');
+Route::get('/home', 'HomeController@index')->name('home')->middleware('auth');
 
 Route::get('/lista/docente','UserController@listadocente')->name('listadocentes')->middleware('auth', 'role:administrador');
 Route::get('/registrar/docente','UserController@registrardocente')->name('registrardocente')->middleware('auth', 'role:administrador');
 Route::post('/docente/registrado','UserController@guardardocente')->name('guardardocente')->middleware('auth', 'role:administrador');
 Route::post('/actualizar/docente/{id}','UserController@editardocente')->name('actualizardocente')->middleware('auth', 'role:administrador');
 Route::get('/eliminar/docente/{id}','UserController@bajadocente')->name('eliminardocente')->middleware('auth', 'role:administrador');
+Route::get('/reportepdf/docentes','UserController@reportepdfdocente')->name('pdfdocente')->middleware('auth', 'role:administrador');
+Route::get('/reportexls/docentes','UserController@reportesxlsdocente')->name('xlsdocente')->middleware('auth', 'role:administrador');
 
 Route::get('/lista/estudiante','UserController@listaestudiante')->name('listaestudiantes')->middleware('auth', 'role:administrador');
 Route::get('/registrar/estudiante','UserController@registrarestudiante')->name('registrarestudiante')->middleware('auth', 'role:administrador');
@@ -38,4 +58,3 @@ Route::get('/eliminar/clase/{id}','ClaseController@bajaclase')->name('eliminarcl
 
 Route::get('/registrar/horario/{id}','HorarioController@registrarhorario')->name('registrarhorario')->middleware('auth', 'role:administrador');
 Route::post('/horario/registrado','HorarioController@guardarhorario')->name('guardarhorarios')->middleware('auth', 'role:administrador');
-Route::get('/registrar/aula/{id}','HorarioController@registraraula')->name('registraraula')->middleware('auth', 'role:administrador');

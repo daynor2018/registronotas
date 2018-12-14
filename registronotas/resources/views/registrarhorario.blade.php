@@ -22,18 +22,31 @@
 	    			<br>
 	    			<div class="row">
 	    		@foreach($dias as $d)
-	    			<div class="col-lg-6">
-	    			<div class="custom-control custom-checkbox">
-  						<input type="checkbox" class="custom-control-input" id="Check{{$d->id}}" name="dia{{$d->id}}" value="{{$d->id}}">
-  						<label class="custom-control-label" for="Check{{$d->id}}">{{strtoupper($d->name)}}</label>
-					</div>
-					<br>
-					</div>				
+	    				<div class="form-group col-lg-3">
+		    				<div class="custom-control custom-checkbox">
+	  						<input type="checkbox" class="custom-control-input" id="Check{{$d->id}}" name="dia{{$d->id}}" value="{{$d->id}}">
+	  						<br>
+	  						<label class="custom-control-label" for="Check{{$d->id}}">{{strtoupper($d->name)}}</label>
+							</div>
+						</div>
+	    				<div class="form-group col-lg-3">
+      						<label for="horainicio{{$d->id}}">Hora de inicio</label>
+      						<input type="time" name="horainicio{{$d->id}}" id="horainicio{{$d->id}}">
+    					</div>
+    					<div class="form-group col-lg-3">
+      						<label for="horafinal{{$d->id}}">Hora de finalización</label>
+      						<input type="time" name="horafinal{{$d->id}}" id="horafinal{{$d->id}}">
+    					</div>
+    					<div class="form-group col-lg-3">
+    						<label for="aula{{$d->id}}">Aula</label>
+    						<input type="text" name="aula{{$d->id}}" id="aula{{$d->id}}">
+    					</div>
+					<br>			
 	    		@endforeach()
+	    		<input type="hidden" name="codhorario" value="{{$codigo}}" id="{{$codigo}}">
 	    		</div>
 	    		</div>
-			  	<div class="col-lg-12 text-center">
-			  	<input type="hidden" name="codigo" value="{{$clase->id}}">
+			  	<div class="col-lg-12 text-center">			  	
 			  	<button type="submit" class="btn btn-primary">Continuar con el registro</button>
 			  	</div>
 			</form>

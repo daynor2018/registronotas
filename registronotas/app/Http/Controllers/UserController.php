@@ -7,6 +7,8 @@ use App\User;
 use App\Role;
 use App\Estudiante;
 use App\Carrera;
+use Barryvdh\DomPDF\Facade as PDF;
+use DB;
 
 class UserController extends Controller
 {
@@ -51,6 +53,23 @@ class UserController extends Controller
         $carreras= Carrera::all();
         return view('registrarestudiante',compact('carreras'));
     }
+
+    public function reportepdfdocente(){
+        $docentes= User::listadocente();
+        $pdf = PDF::loadView('pdfdocente', compact('docentes'));
+        $pdf->setPaper('letter', 'landscape');
+        return $pdf->stream('listado_docente.pdf');
+    }
+
+    public function reportesxlsdocente(){
+        $docentes = User::listadocente()->toArray();
+        return \Excel::create('demo', function($excel) use ($docentes) {
+            $excel->sheet('listado_docente', function($sheet) use ($docentes)
+            {
+                $sheet->fromArray($docentes);
+            });
+        })->download('xls');
+    }  
     /**
      * Store a newly created resource in storage.
      *

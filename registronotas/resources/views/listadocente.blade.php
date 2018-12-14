@@ -22,7 +22,8 @@
 	    	<h1 class="text-white">Lista de docentes</h1>
 	    	<div class="btn-group">
 	    	<a class="btn btn-light bg-warning" href="{{route('registrardocente')}}">Nuevo docente</a>
-	    	<a class="btn btn-light bg-warning" href="#">Exportar</a>
+	    	<a class="btn btn-light bg-warning" href="{{route('pdfdocente')}}" target="_blank">Exportar PDF</a>
+	    	<a class="btn btn-light bg-warning" href="{{route('xlsdocente')}}">Exportar EXCEL</a>
 	    	</div>
 	    	<br>
 	    	<br>
